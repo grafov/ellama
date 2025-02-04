@@ -5,7 +5,7 @@
 ;; Author: Sergey Kostyaev <sskostyaev@gmail.com>
 ;; URL: http://github.com/s-kostyaev/ellama
 ;; Keywords: help local tools
-;; Package-Requires: ((emacs "28.1") (llm "0.22.0") (spinner "1.7.4") (transient "0.7") (compat "29.1"))
+;; Package-Requires: ((emacs "28.1") (llm "0.23.0") (spinner "1.7.4") (transient "0.7") (compat "29.1"))
 ;; Version: 0.13.5
 ;; SPDX-License-Identifier: GPL-3.0-or-later
 ;; Created: 8th Oct 2023
@@ -101,7 +101,7 @@
   "LLM provider list for fast switching."
   :group 'ellama
   :type '(alist :key-type string
-		:value-type (sexp :validate llm-standard-provider-p)))
+	  :value-type (sexp :validate llm-standard-provider-p)))
 
 (defcustom ellama-spinner-type 'progress-bar
   "Spinner type for ellama."
@@ -1570,21 +1570,21 @@ Problem will be solved with the chain of questions to LLM."
   (ellama-chain
    problem
    '((:chat t
-	    :transform (lambda (problem _)
-			 (format "Problem:
+      :transform (lambda (problem _)
+		   (format "Problem:
 %s
 
 Let's think logically and provide abstract higher order plan how to solve this kind
 of problems. Don't dive into small details only provide high-level plan." problem)))
      (:chat t
-	    :transform (lambda (_ _)
-			 "Provide more detailed plan. On what details should we pay attention?"))
+      :transform (lambda (_ _)
+		   "Provide more detailed plan. On what details should we pay attention?"))
      (:chat t
-	    :transform (lambda (_ _)
-			 "Now revise the plan and provide the final solution."))
+      :transform (lambda (_ _)
+		   "Now revise the plan and provide the final solution."))
      (:chat t
-	    :transform (lambda (_ _)
-			 "Provide short final answer based on final solution.")))))
+      :transform (lambda (_ _)
+		   "Provide short final answer based on final solution.")))))
 
 ;;;###autoload
 (defun ellama-solve-domain-specific-problem (problem)
@@ -1605,17 +1605,17 @@ Which specialist suits better for solving this kind of problems?"
 Extract profession from this message. Be short and concise."
 			   res)))
      (:chat t
-	    :transform (lambda (profession _)
-			 (format
-			  "You are professional %s. Do your best and create detailed plan how to solve this problem:
+      :transform (lambda (profession _)
+		   (format
+		    "You are professional %s. Do your best and create detailed plan how to solve this problem:
 %s"
-			  (string-trim profession) ,problem)))
+		    (string-trim profession) ,problem)))
      (:chat t
-	    :transform (lambda (_ _)
-			 "Now revise the plan and provide the final solution."))
+      :transform (lambda (_ _)
+		   "Now revise the plan and provide the final solution."))
      (:chat t
-	    :transform (lambda (_ _)
-			 "Provide short final answer based on final solution.")))))
+      :transform (lambda (_ _)
+		   "Provide short final answer based on final solution.")))))
 
 (declare-function org-export-to-buffer "ox")
 (defvar org-export-show-temporary-export-buffer)
@@ -2203,8 +2203,8 @@ otherwise prompt user for URL to summarize."
    input
    :context (format ellama-extract-string-list-template elements)
    :response-format '(:type object :properties
-			    (:data (:type array :items (:type string)))
-			    :required (data))))
+		      (:data (:type array :items (:type string)))
+		      :required (data))))
 
 (defun ellama-extract-string-list (elements input &rest args)
   "Extract list of ELEMENTS from INPUT syncronously.
